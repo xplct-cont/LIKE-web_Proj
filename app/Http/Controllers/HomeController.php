@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Posts;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // $posts = Posts::orderByDesc('created_at')->get();
+        $posts = DB::table('posts')
+            ->orderByDesc('created_at')
+            ->select('id',
+                    'title',
+                    'description',
+                    DB::raw('(SELECT COUNT(id) FROM likes WHERE post_id=posts.id) AS Likes'))
+            ->get();
+
+        return view('home', ['posts' => $posts]);
     }
 }
