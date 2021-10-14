@@ -157,6 +157,7 @@ class LikesController extends AppBaseController
     }
 
     public function like(Request $request) {
+
         if ($request->ajax()) {
             $like = new Likes;
             $like->post_id = $request['post_id'];
@@ -164,6 +165,23 @@ class LikesController extends AppBaseController
             $like->save();
 
             return json_encode(['response' => true]);
+        }
+    }
+        public function analyzeLike(Request $request) {
+            if ($request ->ajax()){
+                $like = Likes::where('post_id', $request['post_id'])
+                             ->where('user_id', $request['user_id'])
+                             ->get();
+                             
+                    if(count($like)){
+                        Likes::where('post_id', $request['post_id'])
+                             ->where('user_id', $request['user_id'])
+                             ->delete();
+
+                            return json_encode(['result' => 'unliked']);
+                    }else{
+                            return json_encode(['result' => 'liked']);
+            }
         }
     }
 }

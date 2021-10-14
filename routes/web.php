@@ -31,4 +31,5 @@ Route::resource('students', App\Http\Controllers\StudentsController::class);
 Route::resource('posts', App\Http\Controllers\PostsController::class);
 
 Route::post('/likes/like', [App\Http\Controllers\LikesController::class, 'like'])->name('likes.like');
+Route::get('/likes/analyze-like', [App\Http\Controllers\LikesController::class, 'analyzelike'])->name('likes.analyze-like');
 Route::resource('likes', App\Http\Controllers\LikesController::class);
